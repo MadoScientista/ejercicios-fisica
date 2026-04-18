@@ -2,53 +2,68 @@ package com.generador_ejercicio.ejercicios_fisica.service.generadores;
 
 import java.util.Random;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.generador_ejercicio.ejercicios_fisica.model.DatosEjercicio;
-import com.generador_ejercicio.ejercicios_fisica.model.Variable;
-import com.generador_ejercicio.ejercicios_fisica.model.enums.ContextoFisico;
-import com.generador_ejercicio.ejercicios_fisica.model.enums.Dificultad;
-import com.generador_ejercicio.ejercicios_fisica.model.enums.Conversion;
-import com.generador_ejercicio.ejercicios_fisica.model.enums.MagnitudFisica;
+import com.generador_ejercicio.ejercicios_fisica.model.Dato;
+import com.generador_ejercicio.ejercicios_fisica.model.ContextoFisico;
+import com.generador_ejercicio.ejercicios_fisica.model.Dificultad;
+import com.generador_ejercicio.ejercicios_fisica.model.MagnitudFisica;
+import com.generador_ejercicio.ejercicios_fisica.model.UnidadDeMedida;
+import com.generador_ejercicio.ejercicios_fisica.model.VariableFisica;
+import com.generador_ejercicio.ejercicios_fisica.service.UnidadDeMedidaService;
 import com.generador_ejercicio.ejercicios_fisica.utilidades.UtilidadVariables;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
+@Service
 public class GeneradorValoresMRU {
 
-    private MagnitudFisica incognita;
+    private VariableFisica incognita;
     private Dificultad dificultad;
+    private String nombreDificultad;
     private ContextoFisico contexto;
     private DatosEjercicio variablesCalculadas;
-    private Variable variableIncognita;    
-    private Variable x = new Variable();
-    private Variable x0 = new Variable();
-    private Variable t = new Variable();
-    private Variable v = new Variable();
+    private Dato x = new Dato();
+    private Dato x0 = new Dato();
+    private Dato t = new Dato();
+    private Dato v = new Dato();
     private boolean variablesValidas;
 
+    // Prueba para conversión de unidades
+    
+    private UnidadDeMedida km;
+    private UnidadDeMedida kmh;
+
+    @Autowired
+    UnidadDeMedidaService unidadDeMedidaService;
+    
     private static final Random random = new Random();
 
-    public GeneradorValoresMRU(MagnitudFisica incognita, Dificultad dificultad, ContextoFisico contexto){
+    public GeneradorValoresMRU(VariableFisica incognita, Dificultad dificultad, ContextoFisico contexto){
         this.incognita = incognita;
         this.dificultad = dificultad;
         this.contexto = contexto; 
 
-        x.setUnidad("m");
-        x0.setUnidad("m");
-        v.setUnidad("m/s");
-        t.setUnidad("s");
+        km = unidadDeMedidaService.getBySimbolo("km");
+        kmh = unidadDeMedidaService.getBySimbolo("km/h");
+        nombreDificultad = dificultad.getNombre().toUpperCase();
 
         variablesCalculadas = new DatosEjercicio();
         variablesCalculadas.setIncognita(incognita);
     }
 
     public DatosEjercicio generarValores(){
-        return switch(incognita){
-            case POSICION_INICIAL -> calcularX0();
-            case POSICION -> calcularX();
-            case VELOCIDAD -> calcularV();
-            case TIEMPO -> calcularT();
+        String nombreIncognita = incognita.getNombre().toUpperCase();
+
+        return switch(nombreIncognita){
+            case "POSICION_INICIAL" -> calcularX0();
+            case "POSICION" -> calcularX();
+            case "VELOCIDAD" -> calcularV();
+            case "TIEMPO" -> calcularT();
             default -> build();
         };
     }
@@ -72,8 +87,8 @@ public class GeneradorValoresMRU {
         // ELEMENTAL
         t.setValor(2 + random.nextInt(10));
 
-        switch (dificultad){
-            case ELEMENTAL_POSITIVO ->{
+        switch (nombreDificultad){
+            case "ELEMENTAL_POSITIVO" ->{
                 do{
                     v = UtilidadVariables.randomInt(v, contexto.getVMin(), contexto.getVMax(), true);
                     x = UtilidadVariables.randomInt(x, contexto.getXMin(), contexto.getXMax(),  true);
@@ -81,7 +96,7 @@ public class GeneradorValoresMRU {
                 }while(x0.getValor() <= 0 || x.getValor() == t.getValor());
             }
 
-            case ELEMENTAL_NEGATIVO -> {    
+            case "ELEMENTAL_NEGATIVO" -> {    
                 do{
                     v = UtilidadVariables.randomInt(v, contexto.getVMin(), contexto.getVMax(), true);
                     x = UtilidadVariables.randomInt(x, contexto.getXMin(), contexto.getXMax(),  true);
@@ -105,12 +120,12 @@ public class GeneradorValoresMRU {
 
         t.setValor(2 + random.nextInt(60));
 
-        switch (dificultad){
-            case ELEMENTAL_POSITIVO, ELEMENTAL_NEGATIVO ->{
+        switch (nombreDificultad){
+            case "ELEMENTAL_POSITIVO", "ELEMENTAL_NEGATIVO" ->{
                 do{
 
                     t.setValor(2 + random.nextInt(60));
-                    boolean casoPositivo = dificultad == Dificultad.ELEMENTAL_POSITIVO;
+                    boolean casoPositivo = nombreDificultad.equals("ELEMENTAL_POSITIVO");
 
                     v = UtilidadVariables.randomInt(v, contexto.getVMin(), contexto.getVMax(), casoPositivo);
                     x0 = UtilidadVariables.randomInt(x0, contexto.getXMin(), contexto.getXMax(),  true);
@@ -127,7 +142,7 @@ public class GeneradorValoresMRU {
             }
 
 
-            case INTERMEDIO_POSITIVO -> {
+            case "INTERMEDIO_POSITIVO" -> {
                 t.setValor(t.getValor()*5);
 
                 do{
@@ -137,13 +152,13 @@ public class GeneradorValoresMRU {
                 }while(x.getValor() == 0 || x.getValor() == t.getValor() || x0.getValor() == 0);
 
                 if(random.nextBoolean()){
-                    v = UtilidadVariables.convertirUnidad(v, Conversion.MS_A_KMH);
+                    v = UtilidadVariables.convertirUnidad(v, kmh);
                 }else{
-                    x0 = UtilidadVariables.convertirUnidad(x0, Conversion.M_A_KM);  
+                    x0 = UtilidadVariables.convertirUnidad(x0, km);  
                 }
             }
 
-            case INTERMEDIO_NEGATIVO -> {
+            case "INTERMEDIO_NEGATIVO" -> {
                 t.setValor(t.getValor()*5);
 
                 do{
@@ -153,13 +168,13 @@ public class GeneradorValoresMRU {
                 }while(x.getValor() == 0 || x.getValor() == t.getValor() || x0.getValor() == 0);
 
                 if(random.nextBoolean()){
-                    v = UtilidadVariables.convertirUnidad(v, Conversion.MS_A_KMH);
+                    v = UtilidadVariables.convertirUnidad(v, kmh);
                 }else{
-                    x0 = UtilidadVariables.convertirUnidad(x0, Conversion.M_A_KM);  
+                    x0 = UtilidadVariables.convertirUnidad(x0, km);  
                 }
             }
 
-            case AVANZADO_POSITIVO ->{
+            case "AVANZADO_POSITIVO" ->{
 
                 boolean valido;
                 boolean xValido = true;
@@ -180,9 +195,9 @@ public class GeneradorValoresMRU {
                     xValido = UtilidadVariables.comprobarDecimales(x, 3);
 
                     if(random.nextBoolean()){
-                        v = UtilidadVariables.convertirUnidad(v, Conversion.MS_A_KMH);
+                        v = UtilidadVariables.convertirUnidad(v, kmh);
                     }else{
-                        x0 = UtilidadVariables.convertirUnidad(x0, Conversion.M_A_KM);  
+                        x0 = UtilidadVariables.convertirUnidad(x0, km);  
                     }
 
                     vValido = UtilidadVariables.comprobarDecimales(v, 2) && v.getValor() != 0;
@@ -192,7 +207,7 @@ public class GeneradorValoresMRU {
                 }while(x.getValor() == 0 || x.getValor() == t.getValor() || x0.getValor() == 0 || !valido);
             }
 
-            case AVANZADO_NEGATIVO ->{
+            case "AVANZADO_NEGATIVO" ->{
 
                 boolean valido;
                 boolean xValido = true;
@@ -213,9 +228,9 @@ public class GeneradorValoresMRU {
                     xValido = UtilidadVariables.comprobarDecimales(x, 3);
 
                     if(random.nextBoolean()){
-                        v = UtilidadVariables.convertirUnidad(v, Conversion.MS_A_KMH);
+                        v = UtilidadVariables.convertirUnidad(v, kmh);
                     }else{
-                        x0 = UtilidadVariables.convertirUnidad(x0, Conversion.M_A_KM);  
+                        x0 = UtilidadVariables.convertirUnidad(x0, km);  
                     }
 
                     vValido = UtilidadVariables.comprobarDecimales(v, 2) && v.getValor() != 0;
@@ -238,9 +253,9 @@ public class GeneradorValoresMRU {
     private DatosEjercicio calcularV(){
         // v = (x-x0)/t
 
-        switch(dificultad){
-            case ELEMENTAL_POSITIVO, ELEMENTAL_NEGATIVO ->{
-                boolean casoPositivo = dificultad == Dificultad.ELEMENTAL_POSITIVO;
+        switch(nombreDificultad){
+            case "ELEMENTAL_POSITIVO", "ELEMENTAL_NEGATIVO" ->{
+                boolean casoPositivo = nombreDificultad.equals("ELEMENTAL_POSITIVO");
 
                 do{
                     t.setValor(random.nextInt(20));
@@ -257,11 +272,11 @@ public class GeneradorValoresMRU {
                 }while(!variablesValidas);
             }
 
-            case INTERMEDIO_POSITIVO -> {
+            case "INTERMEDIO_POSITIVO" -> {
 
             }
 
-            case INTERMEDIO_NEGATIVO -> {
+            case "INTERMEDIO_NEGATIVO" -> {
 
             }
         }

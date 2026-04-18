@@ -25,10 +25,12 @@ public class UnidadDeMedida {
     private String nombre;
 
     @Column(unique = true, nullable = false)
-    private String unidad;
+    private String simbolo;
 
     private boolean esSI;
     
+    private double factorConversionSI;
+
     @ManyToOne
     @JoinColumn(name="idMagnitudFisica")
     private MagnitudFisica magnitudFisica;

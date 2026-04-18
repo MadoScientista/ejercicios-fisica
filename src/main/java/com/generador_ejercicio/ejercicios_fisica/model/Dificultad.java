@@ -9,22 +9,20 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Conversion {
+public class Dificultad {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int idConversion;
+    private int idDificultad;
 
-    @Column(nullable = false)
-    private String unidadEntrada;
-
-    @Column(nullable = false)
-    private String unidadSalida;
-    
-    @Column(nullable = false)
-    private double factorConversion;
+    @Column(unique = true, nullable = false)
+    private String nombre;
+    private String descripcion;
 }
+
+

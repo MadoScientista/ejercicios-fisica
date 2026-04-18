@@ -1,10 +1,6 @@
 package com.generador_ejercicio.ejercicios_fisica.model;
 
 
-import com.generador_ejercicio.ejercicios_fisica.model.enums.TemaFisica;
-import com.generador_ejercicio.ejercicios_fisica.model.enums.ContextoFisico;
-import com.generador_ejercicio.ejercicios_fisica.model.enums.MagnitudFisica;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,5 +14,5 @@ public class EjercicioFisica {
     private ContextoFisico contexto;
     private DatosEjercicio datosEjercicio;
     private TemaFisica temaFisica;
-    private MagnitudFisica incognita;
+    private VariableFisica incognita;
 }
