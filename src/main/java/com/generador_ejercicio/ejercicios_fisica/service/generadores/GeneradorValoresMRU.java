@@ -70,7 +70,6 @@ public class GeneradorValoresMRU {
         // x0 = x - v*t
 
         // ELEMENTAL
-        
         t.setValor(2 + random.nextInt(10));
 
         switch (dificultad){
