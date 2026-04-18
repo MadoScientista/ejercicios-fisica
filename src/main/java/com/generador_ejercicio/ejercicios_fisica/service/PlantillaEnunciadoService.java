@@ -4,9 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.generador_ejercicio.ejercicios_fisica.model.PlantillaEnunciado;
-import com.generador_ejercicio.ejercicios_fisica.model.ContextoFisico;
-import com.generador_ejercicio.ejercicios_fisica.model.TemaFisica;
-import com.generador_ejercicio.ejercicios_fisica.model.VariableFisica;
 import com.generador_ejercicio.ejercicios_fisica.repository.PlantillaEnunciadoRepository;
 
 @Service
@@ -15,7 +12,10 @@ public class PlantillaEnunciadoService {
     @Autowired
     private PlantillaEnunciadoRepository repo;
 
-    public PlantillaEnunciado getPlantillaEnunciado(TemaFisica tema, ContextoFisico contexto, VariableFisica incognita){
-        return repo.getPlantillaEnunciado(tema, contexto, incognita);
+    public PlantillaEnunciado getPlantillaEnunciado(String  nombreTema, String nombreContexto, String nombreIncognita){
+        return repo.findByTema_nombreAndContexto_nombreAndVariableFisica_nombre(
+            nombreTema, 
+            nombreContexto, 
+            nombreIncognita);
     }
 }
