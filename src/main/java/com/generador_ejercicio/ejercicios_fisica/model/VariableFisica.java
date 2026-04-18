@@ -1,5 +1,7 @@
 package com.generador_ejercicio.ejercicios_fisica.model;
 
+import java.util.List;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -7,6 +9,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -28,6 +31,9 @@ public class VariableFisica {
     private String simbolo;  // xf
 
     @ManyToOne
-    @JoinColumn(name = "id_magnitud_fisica")
+    @JoinColumn(name = "id_magnitud_fisica", nullable = false)
     private MagnitudFisica magnitudFisica;
+
+    @OneToMany(mappedBy = "incognita")
+    private List<PlantillaEnunciado> plantillaEnunciado;
 }

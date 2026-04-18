@@ -1,7 +1,7 @@
 package com.generador_ejercicio.ejercicios_fisica.model.enums;
 
 public enum Dificultad {
-    ELEMENTAL_POSITIVO("Elemental resultado positivo", "operaciones con números enteros"),
+    ELEMENTAL_POSITIVO("Elemental resultado positivo", "operaciones con números enteros y resultado positivo"),
     ELEMENTAL_NEGATIVO("Elemental resultado negativo", "Operaciones con números enteros y resultado negativo"),
     INTERMEDIO_POSITIVO("Intermedio resultado positivo", "operaciones con conversión de unidades"),
     INTERMEDIO_NEGATIVO("Intermedio resultado negativo", "Peraciones con conversión de unidades y resultado negativo"),

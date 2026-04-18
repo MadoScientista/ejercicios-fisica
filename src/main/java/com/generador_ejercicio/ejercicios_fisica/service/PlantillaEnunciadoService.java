@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 
 import com.generador_ejercicio.ejercicios_fisica.model.PlantillaEnunciado;
 import com.generador_ejercicio.ejercicios_fisica.model.ContextoFisico;
-import com.generador_ejercicio.ejercicios_fisica.model.MagnitudFisica;
 import com.generador_ejercicio.ejercicios_fisica.model.TemaFisica;
 import com.generador_ejercicio.ejercicios_fisica.model.VariableFisica;
 import com.generador_ejercicio.ejercicios_fisica.repository.PlantillaEnunciadoRepository;

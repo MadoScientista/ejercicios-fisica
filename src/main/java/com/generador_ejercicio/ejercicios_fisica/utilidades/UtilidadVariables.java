@@ -5,14 +5,16 @@ import java.util.Random;
 import com.generador_ejercicio.ejercicios_fisica.model.Dato;
 import com.generador_ejercicio.ejercicios_fisica.model.UnidadDeMedida;
 
+
+// Clase con métodos estáticos para realizar operaciones con objetos de tipo Dato,
+// como convertir unidades de medida, generar valores aleatorios y comprobar el número de decimales de un valor
+
 public class UtilidadVariables {
 
     private static Random random = new Random();
 
-    public UtilidadVariables(){
-
-    }
-
+    // Convierte el valor de un dato a la unidad de medida de salida
+    // utilizando el factor de coversión a SI de ambas unidades de medida
     public static Dato convertirUnidad(Dato dato, UnidadDeMedida uSalida){        
         
         return new Dato(
@@ -22,6 +24,9 @@ public class UtilidadVariables {
         );
     }
 
+
+    // Retorna el dato de entrada con un valor entero aleatorio entre
+    // min y max, con la posibilidad de ser positivo y negativo según el parámetro "positivo"
     public static Dato randomInt(Dato dato, int min, int max, boolean positivo){
         Dato nuevaDato = new Dato();
 
@@ -35,6 +40,9 @@ public class UtilidadVariables {
         return nuevaDato;   
     }
 
+
+    // Retorna el dato de entrada con un valor decimal aleatorio entre
+    // min y max, con la posibilidad de ser positivo y negativo según el parámetro "positivo"
     public static Dato randomDouble(Dato variable, int min, int max, boolean positivo, int nDecimales){
         Dato nuevaVariable = new Dato();
 
@@ -49,6 +57,9 @@ public class UtilidadVariables {
         return nuevaVariable;   
     }
 
+
+    // Comprueba si el valor del dato de entrada tiene exactamente el número
+    // de decimales especificado en nDecimales
     public static boolean comprobarDecimales(Dato variable, int nDecimales){
 
         double n = variable.getValor()*Math.pow(10, nDecimales);

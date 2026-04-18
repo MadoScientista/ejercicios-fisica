@@ -9,7 +9,6 @@ import com.generador_ejercicio.ejercicios_fisica.model.DatosEjercicio;
 import com.generador_ejercicio.ejercicios_fisica.model.Dato;
 import com.generador_ejercicio.ejercicios_fisica.model.ContextoFisico;
 import com.generador_ejercicio.ejercicios_fisica.model.Dificultad;
-import com.generador_ejercicio.ejercicios_fisica.model.MagnitudFisica;
 import com.generador_ejercicio.ejercicios_fisica.model.UnidadDeMedida;
 import com.generador_ejercicio.ejercicios_fisica.model.VariableFisica;
 import com.generador_ejercicio.ejercicios_fisica.service.UnidadDeMedidaService;
