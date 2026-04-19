@@ -1,6 +1,9 @@
 package com.generador_ejercicio.ejercicios_fisica.service;
 
 
+import java.util.List;
+import java.util.Random;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +23,10 @@ public class EjercicioFisicaService {
     @Autowired
     private PlantillaEnunciadoService peService;
 
+    @Autowired
+    private UnidadDeMedidaService umService;
+
+    private static Random random = new Random();
 
     public EjercicioFisicaService(){
 
@@ -27,7 +34,9 @@ public class EjercicioFisicaService {
 
     public EjercicioFisica getEjercicio(String nombreTema, String nombreContexto, String nombreIncognita, String nombreDificultad){
 
-        PlantillaEnunciado plantillaEnunciado = peService.getPlantillaEnunciado(nombreTema, nombreContexto, nombreIncognita);
+        List<PlantillaEnunciado> plantillasEnunciado = peService.getPlantillaEnunciado(nombreTema, nombreContexto, nombreIncognita);
+
+        PlantillaEnunciado plantillaEnunciado = plantillasEnunciado.get(random.nextInt(plantillasEnunciado.size()));
 
         if(plantillaEnunciado == null){
             return null;
@@ -42,7 +51,7 @@ public class EjercicioFisicaService {
         DatosEjercicio datosEjercicio = switch (nombreTema) {
 
                 case "MRU" ->{
-                    GeneradorValoresMRU generadorValoresMRU = new GeneradorValoresMRU(incognita, dificultad, contexto);
+                    GeneradorValoresMRU generadorValoresMRU = new GeneradorValoresMRU(incognita, dificultad, contexto, umService);
                     yield generadorValoresMRU.generarValores();
                 }
             

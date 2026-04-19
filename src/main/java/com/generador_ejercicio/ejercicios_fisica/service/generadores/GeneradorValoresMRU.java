@@ -2,7 +2,6 @@ package com.generador_ejercicio.ejercicios_fisica.service.generadores;
 
 import java.util.Random;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.generador_ejercicio.ejercicios_fisica.model.DatosEjercicio;
@@ -37,16 +36,18 @@ public class GeneradorValoresMRU {
     private UnidadDeMedida km;
     private UnidadDeMedida kmh;
 
-    @Autowired
-    UnidadDeMedidaService unidadDeMedidaService;
+    
+    private UnidadDeMedidaService unidadDeMedidaService;
     
     private static final Random random = new Random();
 
-    public GeneradorValoresMRU(VariableFisica incognita, Dificultad dificultad, ContextoFisico contexto){
+    public GeneradorValoresMRU(VariableFisica incognita, Dificultad dificultad, ContextoFisico contexto, UnidadDeMedidaService unidadDeMedidaService){
         this.incognita = incognita;
         this.dificultad = dificultad;
         this.contexto = contexto; 
+        this.unidadDeMedidaService = unidadDeMedidaService;
 
+        
         km = unidadDeMedidaService.getBySimbolo("km");
         kmh = unidadDeMedidaService.getBySimbolo("km/h");
         nombreDificultad = dificultad.getNombre().toUpperCase();
