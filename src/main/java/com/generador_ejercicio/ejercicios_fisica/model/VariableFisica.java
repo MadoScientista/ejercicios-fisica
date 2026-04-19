@@ -31,7 +31,7 @@ public class VariableFisica {
     private String simbolo;  // xf
 
     @ManyToOne
-    @JoinColumn(name = "id_magnitud_fisica", nullable = false)
+    @JoinColumn(name = "idMagnitudFisica", nullable = false)
     private MagnitudFisica magnitudFisica;
 
     @OneToMany(mappedBy = "incognita")

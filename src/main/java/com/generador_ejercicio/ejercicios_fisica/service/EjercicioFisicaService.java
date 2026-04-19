@@ -25,10 +25,19 @@ public class EjercicioFisicaService {
 
     }
 
-    public EjercicioFisica getEjercicio(TemaFisica tema, ContextoFisico contexto, VariableFisica incognita, Dificultad dificultad){
-        String nombreTema = tema.getNombre();
+    public EjercicioFisica getEjercicio(String nombreTema, String nombreContexto, String nombreIncognita, String nombreDificultad){
 
-        PlantillaEnunciado plantillaEnunciado = peService.getPlantillaEnunciado(tema, contexto, incognita);
+        PlantillaEnunciado plantillaEnunciado = peService.getPlantillaEnunciado(nombreTema, nombreContexto, nombreIncognita);
+
+        if(plantillaEnunciado == null){
+            return null;
+        }
+
+        TemaFisica tema = plantillaEnunciado.getTema();
+        VariableFisica incognita = plantillaEnunciado.getIncognita();
+        Dificultad dificultad = new Dificultad();
+        dificultad.setNombre(nombreDificultad);
+        ContextoFisico contexto = plantillaEnunciado.getContexto();
 
         DatosEjercicio datosEjercicio = switch (nombreTema) {
 

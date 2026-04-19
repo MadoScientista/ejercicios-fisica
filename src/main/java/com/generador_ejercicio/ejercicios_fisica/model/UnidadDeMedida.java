@@ -31,6 +31,9 @@ public class UnidadDeMedida {
 
     @Column(nullable = false)
     private boolean esSI;
+
+    @Column(nullable = false)
+    private boolean esBaseSI;
     
     @Column(nullable = false)
     private double factorConversionSI;

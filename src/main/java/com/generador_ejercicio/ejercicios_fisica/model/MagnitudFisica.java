@@ -7,8 +7,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -32,10 +30,6 @@ public class MagnitudFisica {
     @Column(unique = true, nullable = false)
     private String simbolo;
 
-    // Agrega columna para unidad SI base
-    @ManyToOne
-    @JoinColumn(name = "idUnidadSI", nullable = false)
-    private UnidadDeMedida unidadSI;
 
     // Relaciones con VariableFisica y UnidadDeMedida
     @OneToMany(mappedBy = "magnitudFisica")
@@ -43,9 +37,6 @@ public class MagnitudFisica {
 
     @OneToMany(mappedBy = "magnitudFisica")
     private List<UnidadDeMedida> unidadesDeMedida;
-
-    @OneToMany(mappedBy = "magnitudFisica")
-    private List<PlantillaEnunciado> plantillaEnunciado;
 
     
 }

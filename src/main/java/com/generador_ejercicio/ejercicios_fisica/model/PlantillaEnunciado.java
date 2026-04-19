@@ -27,19 +27,15 @@ public class PlantillaEnunciado {
     private String enunciado;
 
     @ManyToOne
-    @JoinColumn(name = "id_tema", nullable = false)
+    @JoinColumn(name = "idTema", nullable = false)
     private TemaFisica tema;
 
     @ManyToOne
-    @JoinColumn(name = "id_contexto", nullable = false)
+    @JoinColumn(name = "idContextoFisico", nullable = false)
     private ContextoFisico contexto;
 
     @ManyToOne
-    @JoinColumn(name = "id_incognita", nullable = false)
+    @JoinColumn(name = "idIncognita", nullable = false)
     private VariableFisica incognita;
-
-    @ManyToOne
-    @JoinColumn(name = "id_magnitud_fisica", nullable = false)
-    private MagnitudFisica magnitudFisica;
 
 }

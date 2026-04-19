@@ -6,7 +6,7 @@ import com.generador_ejercicio.ejercicios_fisica.model.PlantillaEnunciado;
 
 public interface PlantillaEnunciadoRepository extends JpaRepository<PlantillaEnunciado, Long> {
 
-    PlantillaEnunciado findByTema_nombreAndContexto_nombreAndVariableFisica_nombre(
+    PlantillaEnunciado findByTema_nombreAndContexto_nombreAndIncognita_nombre(
         String nombreTema,
         String nombreContexto,
         String nombreIncognita

@@ -13,7 +13,7 @@ public class PlantillaEnunciadoService {
     private PlantillaEnunciadoRepository repo;
 
     public PlantillaEnunciado getPlantillaEnunciado(String  nombreTema, String nombreContexto, String nombreIncognita){
-        return repo.findByTema_nombreAndContexto_nombreAndVariableFisica_nombre(
+        return repo.findByTema_nombreAndContexto_nombreAndIncognita_nombre(
             nombreTema, 
             nombreContexto, 
             nombreIncognita);
