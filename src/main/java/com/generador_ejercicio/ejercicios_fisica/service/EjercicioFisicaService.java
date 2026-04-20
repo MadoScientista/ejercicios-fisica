@@ -12,6 +12,7 @@ import com.generador_ejercicio.ejercicios_fisica.model.EjercicioFisica;
 import com.generador_ejercicio.ejercicios_fisica.model.EnunciadoFisica;
 import com.generador_ejercicio.ejercicios_fisica.model.PlantillaEnunciado;
 import com.generador_ejercicio.ejercicios_fisica.model.ContextoFisico;
+import com.generador_ejercicio.ejercicios_fisica.model.Dato;
 import com.generador_ejercicio.ejercicios_fisica.model.Dificultad;
 import com.generador_ejercicio.ejercicios_fisica.model.TemaFisica;
 import com.generador_ejercicio.ejercicios_fisica.model.VariableFisica;
@@ -25,6 +26,9 @@ public class EjercicioFisicaService {
 
     @Autowired
     private UnidadDeMedidaService umService;
+
+    @Autowired
+    private VariableFisicaService vfService;
 
     private static Random random = new Random();
 
@@ -51,14 +55,13 @@ public class EjercicioFisicaService {
         DatosEjercicio datosEjercicio = switch (nombreTema) {
 
                 case "MRU" ->{
-                    GeneradorValoresMRU generadorValoresMRU = new GeneradorValoresMRU(incognita, dificultad, contexto, umService);
+                    GeneradorValoresMRU generadorValoresMRU = new GeneradorValoresMRU(incognita, dificultad, contexto, umService, vfService);
                     yield generadorValoresMRU.generarValores();
                 }
             
                 default ->null;
             };
 
-        
         EnunciadoFisica enunciado = new EnunciadoFisica(plantillaEnunciado, datosEjercicio);
         EjercicioFisica ejercicio = new EjercicioFisica(enunciado, contexto, datosEjercicio, tema, incognita);
         return ejercicio;

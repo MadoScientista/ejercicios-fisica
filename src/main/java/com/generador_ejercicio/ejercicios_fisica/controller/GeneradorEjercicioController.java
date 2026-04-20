@@ -1,15 +1,18 @@
 package com.generador_ejercicio.ejercicios_fisica.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.generador_ejercicio.ejercicios_fisica.dto.RespuestaEjercicioDTO;
 import com.generador_ejercicio.ejercicios_fisica.dto.SolicitudEjercicioDTO;
+import com.generador_ejercicio.ejercicios_fisica.mapper.EjercicioMapper;
 import com.generador_ejercicio.ejercicios_fisica.model.EjercicioFisica;
 import com.generador_ejercicio.ejercicios_fisica.service.EjercicioFisicaService;
 
@@ -19,6 +22,8 @@ public class GeneradorEjercicioController {
 
     @Autowired
     EjercicioFisicaService service;
+
+    private static EjercicioMapper ejercicioMapper = new EjercicioMapper();
 
 
     // ------------------------------------------------------------
@@ -39,14 +44,6 @@ public class GeneradorEjercicioController {
             return ResponseEntity.status(500).body("Error al generar el ejercicio");   
         }
 
-        RespuestaEjercicioDTO respuesta = new RespuestaEjercicioDTO(
-            ejercicio.getTemaFisica().getNombre(),
-            ejercicio.getContexto().getNombre(),
-            ejercicio.getIncognita().getNombre(),
-            request.getDificultad(),
-            ejercicio.getEnunciado().getPlantilla().getEnunciado(),
-            ejercicio.getDatosEjercicio().getDatos()
-        );
-        return ResponseEntity.ok(respuesta);
+        return ResponseEntity.ok(ejercicioMapper.build(ejercicio, request.getDificultad()));
     }
 }

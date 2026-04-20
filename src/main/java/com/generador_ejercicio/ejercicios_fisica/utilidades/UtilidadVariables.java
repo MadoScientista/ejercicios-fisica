@@ -34,6 +34,7 @@ public class UtilidadVariables {
         nuevaDato.setValor(numeroRandom);
 
         nuevaDato.setValor((positivo) ? nuevaDato.getValor(): nuevaDato.getValor()*-1);
+        nuevaDato.setVariable(dato.getVariable());
         nuevaDato.setUnidadDeMedida(dato.getUnidadDeMedida());
         
 
@@ -52,6 +53,7 @@ public class UtilidadVariables {
         nuevaVariable.setValor(decimalRandom);
         
         nuevaVariable.setUnidadDeMedida(variable.getUnidadDeMedida());
+        nuevaVariable.setVariable(variable.getVariable());
         nuevaVariable.setValor((positivo) ? nuevaVariable.getValor(): nuevaVariable.getValor()*-1);
 
         return nuevaVariable;   

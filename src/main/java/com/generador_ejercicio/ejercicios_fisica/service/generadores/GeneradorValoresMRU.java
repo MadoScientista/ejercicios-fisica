@@ -11,6 +11,7 @@ import com.generador_ejercicio.ejercicios_fisica.model.Dificultad;
 import com.generador_ejercicio.ejercicios_fisica.model.UnidadDeMedida;
 import com.generador_ejercicio.ejercicios_fisica.model.VariableFisica;
 import com.generador_ejercicio.ejercicios_fisica.service.UnidadDeMedidaService;
+import com.generador_ejercicio.ejercicios_fisica.service.VariableFisicaService;
 import com.generador_ejercicio.ejercicios_fisica.utilidades.UtilidadVariables;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -35,25 +36,53 @@ public class GeneradorValoresMRU {
     
     private UnidadDeMedida km;
     private UnidadDeMedida kmh;
+    private UnidadDeMedida m;
+    private UnidadDeMedida ms;
+    private UnidadDeMedida s;
 
     
     private UnidadDeMedidaService unidadDeMedidaService;
+    private VariableFisicaService variableFisicaService;
     
     private static final Random random = new Random();
 
-    public GeneradorValoresMRU(VariableFisica incognita, Dificultad dificultad, ContextoFisico contexto, UnidadDeMedidaService unidadDeMedidaService){
+    public GeneradorValoresMRU(
+        VariableFisica incognita, 
+        Dificultad dificultad, 
+        ContextoFisico contexto, 
+        UnidadDeMedidaService unidadDeMedidaService,
+        VariableFisicaService variableFisicaService){
+
         this.incognita = incognita;
         this.dificultad = dificultad;
         this.contexto = contexto; 
         this.unidadDeMedidaService = unidadDeMedidaService;
+        this.variableFisicaService = variableFisicaService;
 
         
         km = unidadDeMedidaService.getBySimbolo("km");
         kmh = unidadDeMedidaService.getBySimbolo("km/h");
+        m = unidadDeMedidaService.getBySimbolo("m");
+        ms = unidadDeMedidaService.getBySimbolo("m/s");
+        s = unidadDeMedidaService.getBySimbolo("s");
+
         nombreDificultad = dificultad.getNombre().toUpperCase();
 
         variablesCalculadas = new DatosEjercicio();
         variablesCalculadas.setIncognita(incognita);
+
+        x.setUnidadDeMedida(m);
+        x.setVariable(variableFisicaService.getBySimbolo("x"));
+        
+        x0.setUnidadDeMedida(m);
+        x0.setVariable(variableFisicaService.getBySimbolo("x0"));
+
+        v.setUnidadDeMedida(ms);
+        v.setVariable(variableFisicaService.getBySimbolo("v"));
+
+        t.setUnidadDeMedida(s);
+        t.setVariable(variableFisicaService.getBySimbolo("t"));
+        
     }
 
     public DatosEjercicio generarValores(){

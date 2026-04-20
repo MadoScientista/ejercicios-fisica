@@ -16,6 +16,10 @@ public class DatosEjercicio {
         datos = new HashSet<>();
     }
 
+    public Set<Dato> getDatos(){
+        return datos;
+    }
+    
     public void agregarDato(Dato dato){
         datos.add(dato);
     }
