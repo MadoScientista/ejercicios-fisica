@@ -12,7 +12,6 @@ import com.generador_ejercicio.ejercicios_fisica.model.EjercicioFisica;
 import com.generador_ejercicio.ejercicios_fisica.model.EnunciadoFisica;
 import com.generador_ejercicio.ejercicios_fisica.model.PlantillaEnunciado;
 import com.generador_ejercicio.ejercicios_fisica.model.ContextoFisico;
-import com.generador_ejercicio.ejercicios_fisica.model.Dato;
 import com.generador_ejercicio.ejercicios_fisica.model.Dificultad;
 import com.generador_ejercicio.ejercicios_fisica.model.TemaFisica;
 import com.generador_ejercicio.ejercicios_fisica.model.VariableFisica;
@@ -32,11 +31,8 @@ public class EjercicioFisicaService {
 
     private static Random random = new Random();
 
-    public EjercicioFisicaService(){
 
-    }
-
-    public EjercicioFisica getEjercicio(String nombreTema, String nombreContexto, String nombreIncognita, String nombreDificultad){
+    public EjercicioFisica getEjercicio(String nombreTema, String nombreContexto, String nombreIncognita, String nombreDificultad, boolean resultadoPositivo){
 
         List<PlantillaEnunciado> plantillasEnunciado = peService.getPlantillaEnunciado(nombreTema, nombreContexto, nombreIncognita);
 
@@ -55,15 +51,16 @@ public class EjercicioFisicaService {
         DatosEjercicio datosEjercicio = switch (nombreTema) {
 
                 case "MRU" ->{
-                    GeneradorValoresMRU generadorValoresMRU = new GeneradorValoresMRU(incognita, dificultad, contexto, umService, vfService);
-                    yield generadorValoresMRU.generarValores();
+                    GeneradorValoresMRU generadorValoresMRU = new GeneradorValoresMRU(umService, vfService);
+                    yield generadorValoresMRU.generarValores(nombreIncognita, nombreDificultad, contexto, resultadoPositivo);
+
                 }
             
                 default ->null;
             };
 
         EnunciadoFisica enunciado = new EnunciadoFisica(plantillaEnunciado, datosEjercicio);
-        EjercicioFisica ejercicio = new EjercicioFisica(enunciado, contexto, datosEjercicio, tema, incognita);
+        EjercicioFisica ejercicio = new EjercicioFisica(enunciado, dificultad, contexto, datosEjercicio, tema, incognita);
         return ejercicio;
     }
 }

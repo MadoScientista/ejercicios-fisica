@@ -15,7 +15,7 @@ public class EjercicioMapper {
     }
 
 
-    public RespuestaEjercicioDTO build(EjercicioFisica ejercicio, String dificultad){
+    public RespuestaEjercicioDTO build(EjercicioFisica ejercicio){
         List<Map<String, Object>> datos = new ArrayList<>();
 
         String textoFinal = ejercicio.getEnunciado().getPlantilla().getEnunciado();
@@ -41,7 +41,7 @@ public class EjercicioMapper {
             ejercicio.getTemaFisica().getNombre(),
             ejercicio.getContexto().getNombre(),
             ejercicio.getIncognita().getNombre(),
-            dificultad,
+            ejercicio.getDificultad().getNombre(),
             ejercicio.getEnunciado().getPlantilla().getEnunciado(),
             datos
         );

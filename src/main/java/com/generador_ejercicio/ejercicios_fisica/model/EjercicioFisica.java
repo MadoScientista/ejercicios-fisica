@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class EjercicioFisica {
     private EnunciadoFisica enunciado;
+    private Dificultad dificultad;
     private ContextoFisico contexto;
     private DatosEjercicio datosEjercicio;
     private TemaFisica temaFisica;

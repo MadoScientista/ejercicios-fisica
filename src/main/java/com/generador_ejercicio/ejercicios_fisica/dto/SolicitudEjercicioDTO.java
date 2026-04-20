@@ -12,4 +12,5 @@ public class SolicitudEjercicioDTO {
     private String contexto;
     private String incognita;
     private String dificultad;
+    private boolean resultadoPositivo;
 }

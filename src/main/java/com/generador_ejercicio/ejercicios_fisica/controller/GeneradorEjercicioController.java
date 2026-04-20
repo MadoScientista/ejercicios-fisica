@@ -21,9 +21,9 @@ import com.generador_ejercicio.ejercicios_fisica.service.EjercicioFisicaService;
 public class GeneradorEjercicioController {
 
     @Autowired
-    EjercicioFisicaService service;
+    private EjercicioFisicaService service;
 
-    private static EjercicioMapper ejercicioMapper = new EjercicioMapper();
+    private static final EjercicioMapper ejercicioMapper = new EjercicioMapper();
 
 
     // ------------------------------------------------------------
@@ -37,13 +37,14 @@ public class GeneradorEjercicioController {
             request.getTema(),
             request.getContexto(),
             request.getIncognita(),
-            request.getDificultad()
+            request.getDificultad(),
+            request.isResultadoPositivo()
         );
 
         if(ejercicio == null){
             return ResponseEntity.status(500).body("Error al generar el ejercicio");   
         }
 
-        return ResponseEntity.ok(ejercicioMapper.build(ejercicio, request.getDificultad()));
+        return ResponseEntity.ok(ejercicioMapper.build(ejercicio));
     }
 }
