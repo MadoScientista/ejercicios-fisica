@@ -11,7 +11,6 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class RespuestaEjercicioDTO {
-    private String textoCompleto;
     private String tema;
     private String contexto;
     private String incognita;

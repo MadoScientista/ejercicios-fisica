@@ -18,14 +18,14 @@ public class EjercicioMapper {
     public RespuestaEjercicioDTO build(EjercicioFisica ejercicio){
         List<Map<String, Object>> datos = new ArrayList<>();
 
-        String textoFinal = ejercicio.getEnunciado().getPlantilla().getEnunciado();
+        String enunciado = ejercicio.getEnunciado().getPlantilla().getEnunciado();
 
 
         for(Dato dato : ejercicio.getDatosEjercicio().getDatos()){
             String placeHolder = "{" + dato.getVariable().getSimbolo() + "}";
             String datoConUnidad = String.format("%.2f %s", dato.getValor(), dato.getUnidadDeMedida().getSimbolo());
             
-            textoFinal = textoFinal.replace(placeHolder, datoConUnidad);
+            enunciado = enunciado.replace(placeHolder, datoConUnidad);
             
             datos.add(
                 Map.of(
@@ -37,12 +37,11 @@ public class EjercicioMapper {
         }
 
         RespuestaEjercicioDTO respuesta = new RespuestaEjercicioDTO(
-            textoFinal,
             ejercicio.getTemaFisica().getNombre(),
             ejercicio.getContexto().getNombre(),
             ejercicio.getIncognita().getNombre(),
             ejercicio.getDificultad().getNombre(),
-            ejercicio.getEnunciado().getPlantilla().getEnunciado(),
+            enunciado,
             datos
         );
 
