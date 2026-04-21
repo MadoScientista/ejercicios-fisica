@@ -17,9 +17,10 @@ public class UtilidadVariables {
     // utilizando el factor de coversión a SI de ambas unidades de medida
     public static Dato convertirUnidad(Dato dato, UnidadDeMedida uSalida){        
         
+        double valor = dato.getValor() * (dato.getUnidadDeMedida().getFactorConversionSI() / uSalida.getFactorConversionSI());
         return new Dato(
             dato.getVariable(),
-            dato.getValor() * dato.getUnidadDeMedida().getFactorConversionSI() / uSalida.getFactorConversionSI(),
+            valor,
             uSalida
         );
     }
@@ -60,7 +61,7 @@ public class UtilidadVariables {
     }
 
 
-    // Comprueba si el valor del dato de entrada tiene exactamente el número
+    // Comprueba si el valor del dato de entrada tiene como máximo el número
     // de decimales especificado en nDecimales
     public static boolean comprobarDecimales(Dato variable, int nDecimales){
 
@@ -69,5 +70,12 @@ public class UtilidadVariables {
         boolean correcto = (n_ceil - n) == 0;
 
         return correcto;
+
+        // double factor = Math.pow(10, nDecimales);
+        // double valor = variable.getValor();
+
+        // double redondeado = Math.round(valor * factor) / factor;
+
+        // return Math.abs(valor - redondeado) < 1e-9;
     }
 }

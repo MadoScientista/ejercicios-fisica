@@ -46,24 +46,32 @@ public class GeneradorValoresMRU {
     // con valores seguún contexto y dificultad
     public DatosEjercicio generarValores(String nombreIncognita, String nombreDificultad, ContextoFisico contexto, boolean resultadoPositivo){
 
+        // Busca unidades de medida base en el SI
+        UnidadDeMedida uLongitud = umService.getUnidadBaseSI("LONGITUD");
+        UnidadDeMedida uVelocidad = umService.getUnidadBaseSI("VELOCIDAD");
+        UnidadDeMedida uTiempo = umService.getUnidadBaseSI("TIEMPO");
 
         // Crea datos con unidad de medida y asignación de tipo de variable
         // Por ahora se asigna manualmente la unidad base del SI
         Dato x = new Dato();
-        x.setUnidadDeMedida(m);
+        //x.setUnidadDeMedida(m);
         x.setVariable(vfService.getBySimbolo("x"));
+        x.setUnidadDeMedida(uLongitud);
         
         Dato x0 = new Dato();
-        x0.setUnidadDeMedida(m);
+        //x0.setUnidadDeMedida(m);
         x0.setVariable(vfService.getBySimbolo("x0"));
+        x0.setUnidadDeMedida(uLongitud);
 
         Dato v = new Dato();
-        v.setUnidadDeMedida(ms);
+        //v.setUnidadDeMedida(ms);
         v.setVariable(vfService.getBySimbolo("v"));
+        v.setUnidadDeMedida(uVelocidad);
 
         Dato t = new Dato();
-        t.setUnidadDeMedida(s);
+        //t.setUnidadDeMedida(s);
         t.setVariable(vfService.getBySimbolo("t"));
+        t.setUnidadDeMedida(uTiempo);
 
 
         // Declara el objeto a retornar
@@ -139,20 +147,30 @@ public class GeneradorValoresMRU {
     private DatosEjercicio calcularX(Dato x, Dato x0, Dato v, Dato t, ContextoFisico contexto, String nombreDificultad, boolean resultadoPositivo){
         // x = x0 + v*t
 
-        t.setValor(2 + random.nextInt(240));
-
+        // Inicialización de variables de valdiación según dificultad
         boolean variablesValidas = true;
-        boolean xValido = true;
-        boolean x0Valido = true;
-        boolean vValido = true;
+        boolean xValido;
+        boolean x0Valido;
+        boolean vValido;
 
-        do{
+        // Ciclo de cálculo de valores según nivel de dificultad
+        do{ 
 
+            xValido = true;
+            x0Valido = true;
+            vValido = true;
+
+            // El cálculo de tiempo debería venir de la tabla de contexto físico
+            // por ahora está hardcodeado para pruebas
+            t.setValor(2 + random.nextInt(600));
+
+            // Dificultad elemental y media utilizan valores enteros
             if(nombreDificultad.equals("ELEMENTAL") || nombreDificultad.equals("INTERMEDIO")){
                 v = UtilidadVariables.randomInt(v, contexto.getVMin(), contexto.getVMax(), resultadoPositivo);
                 x0 = UtilidadVariables.randomInt(x0, contexto.getXMin(), contexto.getXMax(),  true);
             }
 
+            // Dificultad avanzada calcula al menos un valor decimal
             if(nombreDificultad.equals("AVANZADO") ){
                 if(random.nextBoolean()){
                     v = UtilidadVariables.randomInt(v, contexto.getVMin(), contexto.getVMax(), resultadoPositivo);
@@ -163,21 +181,40 @@ public class GeneradorValoresMRU {
                 }
             }
 
+            // Cálculo de incognita según ecuación MRU
             x.setValor(x0.getValor() + v.getValor()*t.getValor());
 
+            // Para dificultades intermedias y avanzadas se realizan conversión de unidades
             if(nombreDificultad.equals("INTERMEDIO") || nombreDificultad.equals("AVANZADO")){
                 if(random.nextBoolean()){
-                    v = UtilidadVariables.convertirUnidad(v, kmh);
+                    Dato vConvertido = UtilidadVariables.convertirUnidad(v, kmh);
+                    if(UtilidadVariables.comprobarDecimales(vConvertido, 2) && vConvertido.getValor() != 0){
+                        v = vConvertido;
+                    }else{
+                        vValido = false;
+                    }
                 }else{
-                    x0 = UtilidadVariables.convertirUnidad(x0, km);  
+                    Dato x0Convertido = UtilidadVariables.convertirUnidad(x0, km);  
+                    if(UtilidadVariables.comprobarDecimales(x0Convertido, 3)){
+                        x0 = x0Convertido;
+                    }else{
+                        x0Valido = false;
+                    }
                 }
             }
 
-            vValido = UtilidadVariables.comprobarDecimales(v, 2) && v.getValor() != 0;
-            x0Valido = UtilidadVariables.comprobarDecimales(x0, 3);
+            // Los valores calculados no pueden superar los 2 decimales para velocidades
+            // En el caso de posiciónes pueden llegar a 3 decimales por la conversión a km
 
-            xValido = x.getValor() != 0 && x.getValor() != t.getValor();
+            // vValido = UtilidadVariables.comprobarDecimales(v, 2) && v.getValor() != 0;
+            // x0Valido = UtilidadVariables.comprobarDecimales(x0, 3);
 
+            // Para que los cálculos no sean extremadamente simples la posición final no
+            // debe ser igual a cero o igual al tiempo de movimiento
+            xValido = x.getValor() != 0 && x.getValor() != t.getValor() && UtilidadVariables.comprobarDecimales(x, 3) ;
+
+
+            // Validación para casos con resultado positivo/negativo
             if(resultadoPositivo){
                 xValido = xValido && x.getValor() > 0;
             }else{
@@ -185,13 +222,14 @@ public class GeneradorValoresMRU {
             }
             
             
-            x0Valido = x0Valido && x0.getValor() != 0;
+            //x0Valido = x0Valido && x0.getValor() != 0;
 
+            //Se deben cumplir todas las validaciones para salir del ciclo
             variablesValidas = xValido && x0Valido && vValido;
 
         }while(!variablesValidas);
 
-
+        // Las variables calculadas son retornadas en un objeto DatosEjercicio con build()
         return build(x, x0, v, t);
     }
 
