@@ -19,9 +19,6 @@ public class GeneradorValoresMRU {
     
     private UnidadDeMedida km;
     private UnidadDeMedida kmh;
-    private UnidadDeMedida m;
-    private UnidadDeMedida ms;
-    private UnidadDeMedida s;
     
     private UnidadDeMedidaService umService;
     private VariableFisicaService vfService;
@@ -35,9 +32,6 @@ public class GeneradorValoresMRU {
 
         km = umService.getBySimbolo("km");
         kmh = umService.getBySimbolo("km/h");
-        m = umService.getBySimbolo("m");
-        ms = umService.getBySimbolo("m/s");
-        s = umService.getBySimbolo("s");
         
     }
 
