@@ -414,6 +414,97 @@ public class GeneradorValoresMRU {
 
         // t = (x-x0)/v
 
+        // El cálculo de tiempo
+
+
+        // Inicialización de variables de valdiación según dificultad
+        boolean variablesValidas = true;
+        boolean xValido;
+        boolean x0Valido;
+        boolean vValido;
+
+        
+        // Cálculo de rango temporal en segundos
+        int tMin = Math.round(contexto.getXMin()/contexto.getVMin());
+        int tMax = Math.round(contexto.getXMax()/contexto.getVMax());
+
+        int rangoT = tMax - tMin;
+
+        // Ciclo de cálculo de valores según nivel de dificultad
+        do{
+            xValido = true;
+            x0Valido = true;
+            vValido = true;
+
+            // Cálculo de tiempo en entero para dificultad elemental e intermedio.
+            
+            if(nombreDificultad.equals("ELEMENTAL") || nombreDificultad.equals("INTERMEDIO")){
+                t.setValor(tMin + random.nextInt(rangoT));
+                x = UtilidadVariables.randomInt(x, contexto.getXMin(), contexto.getXMax(), resultadoPositivo);
+                x0 = UtilidadVariables.randomInt(x0, contexto.getXMin(), contexto.getXMax(), true);
+            }
+
+            // Cálculo de posiciones con decimales y posición inicial negativa/positiva
+            if(nombreDificultad.equals("AVANZADO")){
+                t.setValor(tMin + random.nextDouble(rangoT));
+                x = UtilidadVariables.randomDouble(x, contexto.getXMin(), contexto.getXMax(), resultadoPositivo, 3);
+                x0 = UtilidadVariables.randomDouble(x0, contexto.getXMin(), contexto.getXMax(), !resultadoPositivo, 3);
+            }
+
+            // Cálculo de la velocidad
+            v.setValor((x.getValor()-x0.getValor())/t.getValor());
+
+            // Validación decimales para el resultado final de la velocidad en el SI
+            if(nombreDificultad.equals("ELEMENTAL") || nombreDificultad.equals("INTERMEDIO")){
+                if(!UtilidadVariables.comprobarDecimales(v, 0)){
+                    vValido = false;
+                }
+            }
+
+            if(nombreDificultad.equals("AVANZADO")){
+                if(!UtilidadVariables.comprobarDecimales(v, 2)){
+                    vValido = false;
+                }
+            }
+
+
+            // Conversión de unidades
+            if(nombreDificultad.equals("INTERMEDIO") || nombreDificultad.equals("AVANZADO")){
+                
+                // Reseteamos unidades de medida
+                x.setUnidadDeMedida(m);
+                t.setUnidadDeMedida(s);
+
+                // Conversión de unidades de tiempo o distancia
+                if(random.nextBoolean()){
+                    Dato xConvertido = UtilidadVariables.convertirUnidad(x, km);
+                    Dato x0Convertido = UtilidadVariables.convertirUnidad(x0, km);
+                    
+                    if(UtilidadVariables.comprobarDecimales(xConvertido, 3) && UtilidadVariables.comprobarDecimales(x0Convertido, 3) ){
+                        x = xConvertido;
+                        x0 = x0Convertido;
+                    }
+                    
+                }else{
+                    Dato vConvertido = UtilidadVariables.convertirUnidad(v, kmh);
+                    if(UtilidadVariables.comprobarDecimales(vConvertido, 2)){
+                        v = vConvertido;
+                    }
+                    
+                }
+            }
+
+            // Validación resultado positivo
+            if(resultadoPositivo){
+                vValido = vValido && v.getValor() > 0 && v.getValor() <= contexto.getVMax();
+            }else{
+                vValido = vValido && v.getValor() < 0 && v.getValor() >= contexto.getVMax()*-1;
+            }
+
+            variablesValidas = vValido && xValido && x0Valido;
+
+        }while(!variablesValidas);
+
         return build(x, x0, v, t);
     }
 }
