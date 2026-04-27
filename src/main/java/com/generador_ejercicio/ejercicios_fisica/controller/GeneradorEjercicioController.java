@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.generador_ejercicio.ejercicios_fisica.dto.SolicitudEjercicioDTO;
+import com.generador_ejercicio.ejercicios_fisica.dto.ejercicioDTO.RequestEjercicioDTO;
 import com.generador_ejercicio.ejercicios_fisica.mapper.EjercicioMapper;
 import com.generador_ejercicio.ejercicios_fisica.model.EjercicioFisica;
 import com.generador_ejercicio.ejercicios_fisica.service.EjercicioFisicaService;
@@ -19,7 +19,7 @@ public class GeneradorEjercicioController {
 
     @Autowired
     private EjercicioFisicaService service;
-
+    
     private static final EjercicioMapper ejercicioMapper = new EjercicioMapper();
 
 
@@ -28,7 +28,7 @@ public class GeneradorEjercicioController {
     // ------------------------------------------------------------
 
     @PostMapping
-    public ResponseEntity<?> getEjercicioMRU(@RequestBody SolicitudEjercicioDTO request){
+    public ResponseEntity<?> getEjercicioMRU(@RequestBody RequestEjercicioDTO request){
 
         EjercicioFisica ejercicio = service.getEjercicio(
             request.getTema(),

@@ -11,11 +11,11 @@ import com.generador_ejercicio.ejercicios_fisica.model.DatosEjercicio;
 import com.generador_ejercicio.ejercicios_fisica.model.EjercicioFisica;
 import com.generador_ejercicio.ejercicios_fisica.model.EnunciadoFisica;
 import com.generador_ejercicio.ejercicios_fisica.model.PlantillaEnunciado;
+import com.generador_ejercicio.ejercicios_fisica.generadores.GeneradorValoresMRU;
 import com.generador_ejercicio.ejercicios_fisica.model.ContextoFisico;
 import com.generador_ejercicio.ejercicios_fisica.model.Dificultad;
 import com.generador_ejercicio.ejercicios_fisica.model.TemaFisica;
 import com.generador_ejercicio.ejercicios_fisica.model.VariableFisica;
-import com.generador_ejercicio.ejercicios_fisica.service.generadores.GeneradorValoresMRU;
 
 @Service
 public class EjercicioFisicaService {

@@ -7,9 +7,9 @@ import com.generador_ejercicio.ejercicios_fisica.model.UnidadDeMedida;
 
 public interface UnidadDeMedidaRepository extends JpaRepository<UnidadDeMedida, Integer>{
 
-    public UnidadDeMedida findBySimbolo(String simbolo);
+    UnidadDeMedida findBySimbolo(String simbolo);
 
-    public UnidadDeMedida findByMagnitudFisicaAndEsBaseSITrue(MagnitudFisica magnitudFisica);
+    UnidadDeMedida findByMagnitudFisicaAndEsBaseSITrue(MagnitudFisica magnitudFisica);
 
-    public UnidadDeMedida findByMagnitudFisicaNombreAndEsBaseSITrue(String nombreMagnitudFisica);
+    UnidadDeMedida findByMagnitudFisicaNombreAndEsBaseSITrue(String nombreMagnitudFisica);
 }

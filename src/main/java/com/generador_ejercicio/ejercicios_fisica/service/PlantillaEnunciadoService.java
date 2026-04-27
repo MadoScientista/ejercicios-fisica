@@ -16,7 +16,7 @@ public class PlantillaEnunciadoService {
 
 
     //-------------------------------------------------------------
-    //-------------- SECCIÓN GET EJERCICIOS -----------------------
+    //------------------------- SECCIÓN GET -----------------------
     //-------------------------------------------------------------
 
     public List<PlantillaEnunciado> getPlantillas(){
@@ -31,5 +31,14 @@ public class PlantillaEnunciadoService {
             nombreIncognita,
             resultadoPositivo);
     }
+
+    public PlantillaEnunciado getPlantillaById(long id){
+        return repo.findByIdPlantillaEnunciado(id);
+    }
+
+    public List<PlantillaEnunciado> getPlantillasByTema(String nombreTema){
+        return repo.findAllByTema_nombre(nombreTema);
+    }
+    
 
 }

@@ -1,4 +1,4 @@
-package com.generador_ejercicio.ejercicios_fisica.service.generadores;
+package com.generador_ejercicio.ejercicios_fisica.generadores;
 
 import java.util.Random;
 

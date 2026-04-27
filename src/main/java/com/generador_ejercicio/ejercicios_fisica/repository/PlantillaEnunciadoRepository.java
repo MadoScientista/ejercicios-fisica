@@ -16,4 +16,8 @@ public interface PlantillaEnunciadoRepository extends JpaRepository<PlantillaEnu
     );
 
     List<PlantillaEnunciado> findAllByOrderByIdPlantillaEnunciadoAsc();
+
+    List<PlantillaEnunciado> findAllByTema_nombre(String tema);
+
+    <Optional> PlantillaEnunciado findByIdPlantillaEnunciado(long id);
 }

@@ -1,4 +1,4 @@
-package com.generador_ejercicio.ejercicios_fisica.dto;
+package com.generador_ejercicio.ejercicios_fisica.dto.plantillaEnunciadoDTO;
 
 
 import lombok.AllArgsConstructor;
@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class RespuestaPlantillaEnunciadoDTO {
+public class ResponsePlantillaEnunciadoDTO {
     private long idPlantillaEnunciado;
     private String tema;
     private String contexto;
