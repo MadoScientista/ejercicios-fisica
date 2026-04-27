@@ -4,21 +4,22 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import com.generador_ejercicio.ejercicios_fisica.dto.RespuestaEjercicioDTO;
+import com.generador_ejercicio.ejercicios_fisica.dto.ejercicioDTO.ResponseEjercicioDTO;
 import com.generador_ejercicio.ejercicios_fisica.model.Dato;
 import com.generador_ejercicio.ejercicios_fisica.model.EjercicioFisica;
 
+import lombok.NoArgsConstructor;
+
+
+@NoArgsConstructor
 public class EjercicioMapper {
 
-    public EjercicioMapper(){
 
-    }
-
-
-    public RespuestaEjercicioDTO build(EjercicioFisica ejercicio){
+    public ResponseEjercicioDTO build(EjercicioFisica ejercicio){
         List<Map<String, Object>> datos = new ArrayList<>();
 
         String enunciado = ejercicio.getEnunciado().getPlantilla().getEnunciado();
+        long idEnunciado = ejercicio.getEnunciado().getPlantilla().getIdPlantillaEnunciado();
 
 
         for(Dato dato : ejercicio.getDatosEjercicio().getDatos()){
@@ -36,11 +37,12 @@ public class EjercicioMapper {
             );
         }
 
-        RespuestaEjercicioDTO respuesta = new RespuestaEjercicioDTO(
+        ResponseEjercicioDTO respuesta = new ResponseEjercicioDTO(
             ejercicio.getTemaFisica().getNombre(),
             ejercicio.getContexto().getNombre(),
             ejercicio.getIncognita().getNombre(),
             ejercicio.getDificultad().getNombre(),
+            idEnunciado,
             enunciado,
             datos
         );

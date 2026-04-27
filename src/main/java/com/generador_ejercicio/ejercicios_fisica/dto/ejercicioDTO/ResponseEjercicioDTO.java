@@ -1,4 +1,4 @@
-package com.generador_ejercicio.ejercicios_fisica.dto;
+package com.generador_ejercicio.ejercicios_fisica.dto.ejercicioDTO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,15 +10,16 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class RespuestaEjercicioDTO {
+public class ResponseEjercicioDTO {
     private String tema;
     private String contexto;
     private String incognita;
     private String dificultad;
+    private long idPlantillaEnunciado;
     private String enunciado;
     private List<Map<String, Object>> datos;
 
-    public RespuestaEjercicioDTO(){
+    public ResponseEjercicioDTO(){
         datos = new ArrayList<>();
     }
 }

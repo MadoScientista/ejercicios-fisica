@@ -11,11 +11,11 @@ import com.generador_ejercicio.ejercicios_fisica.model.DatosEjercicio;
 import com.generador_ejercicio.ejercicios_fisica.model.EjercicioFisica;
 import com.generador_ejercicio.ejercicios_fisica.model.EnunciadoFisica;
 import com.generador_ejercicio.ejercicios_fisica.model.PlantillaEnunciado;
+import com.generador_ejercicio.ejercicios_fisica.generadores.GeneradorValoresMRU;
 import com.generador_ejercicio.ejercicios_fisica.model.ContextoFisico;
 import com.generador_ejercicio.ejercicios_fisica.model.Dificultad;
 import com.generador_ejercicio.ejercicios_fisica.model.TemaFisica;
 import com.generador_ejercicio.ejercicios_fisica.model.VariableFisica;
-import com.generador_ejercicio.ejercicios_fisica.service.generadores.GeneradorValoresMRU;
 
 @Service
 public class EjercicioFisicaService {
@@ -32,15 +32,28 @@ public class EjercicioFisicaService {
     private static Random random = new Random();
 
 
+
+    //-------------------------------------------------------------
+    //-------------- SECCIÓN GET EJERCICIOS -----------------------
+    //-------------------------------------------------------------
+    
+    public List<PlantillaEnunciado> getPlantillas(){
+        return peService.getPlantillas();
+    }
+
+
+
+    // Retorna un ejercicio aleatorio
     public EjercicioFisica getEjercicio(String nombreTema, String nombreContexto, String nombreIncognita, String nombreDificultad, boolean resultadoPositivo){
 
-        List<PlantillaEnunciado> plantillasEnunciado = peService.getPlantillaEnunciado(nombreTema, nombreContexto, nombreIncognita);
+        List<PlantillaEnunciado> plantillasEnunciado = peService.getPlantillaEnunciado(nombreTema, nombreContexto, nombreIncognita, resultadoPositivo);
+        
 
-        PlantillaEnunciado plantillaEnunciado = plantillasEnunciado.get(random.nextInt(plantillasEnunciado.size()));
-
-        if(plantillaEnunciado == null){
+        if(plantillasEnunciado.size() == 0){
             return null;
         }
+
+        PlantillaEnunciado plantillaEnunciado = plantillasEnunciado.get(random.nextInt(plantillasEnunciado.size()));
 
         TemaFisica tema = plantillaEnunciado.getTema();
         VariableFisica incognita = plantillaEnunciado.getIncognita();

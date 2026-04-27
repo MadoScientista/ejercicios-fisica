@@ -1,4 +1,4 @@
-package com.generador_ejercicio.ejercicios_fisica.dto;
+package com.generador_ejercicio.ejercicios_fisica.dto.ejercicioDTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class SolicitudEjercicioDTO {
+public class RequestEjercicioDTO {
     private String tema;
     private String contexto;
     private String incognita;
