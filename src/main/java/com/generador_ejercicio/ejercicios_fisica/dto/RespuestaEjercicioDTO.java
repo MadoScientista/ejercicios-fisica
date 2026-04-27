@@ -15,6 +15,7 @@ public class RespuestaEjercicioDTO {
     private String contexto;
     private String incognita;
     private String dificultad;
+    private long idPlantillaEnunciado;
     private String enunciado;
     private List<Map<String, Object>> datos;
 

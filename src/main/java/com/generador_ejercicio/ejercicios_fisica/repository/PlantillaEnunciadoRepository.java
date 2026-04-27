@@ -8,9 +8,12 @@ import com.generador_ejercicio.ejercicios_fisica.model.PlantillaEnunciado;
 
 public interface PlantillaEnunciadoRepository extends JpaRepository<PlantillaEnunciado, Long> {
 
-    List<PlantillaEnunciado> findByTema_nombreAndContexto_nombreAndIncognita_nombre(
+    List<PlantillaEnunciado> findByTema_nombreAndContexto_nombreAndIncognita_nombreAndResultadoPositivo(
         String nombreTema,
         String nombreContexto,
-        String nombreIncognita
+        String nombreIncognita,
+        boolean resultadoPositivo
     );
+
+    List<PlantillaEnunciado> findAllByOrderByIdPlantillaEnunciadoAsc();
 }

@@ -28,8 +28,11 @@ public class PlantillaEnunciado {
     @Column(nullable = false)
     private String enunciado;
 
+    @Column(nullable = false)
+    private boolean resultadoPositivo;
+
     @ManyToOne
-    @JoinColumn(name = "idTema", nullable = false)
+    @JoinColumn(name = "idTemaFisica", nullable = false)
     private TemaFisica tema;
 
     @ManyToOne
@@ -39,5 +42,7 @@ public class PlantillaEnunciado {
     @ManyToOne
     @JoinColumn(name = "idIncognita", nullable = false)
     private VariableFisica incognita;
+
+    
 
 }
