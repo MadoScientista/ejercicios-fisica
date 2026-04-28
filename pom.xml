@@ -8,10 +8,10 @@
 		<version>4.0.5</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.generador_ejercicio</groupId>
-	<artifactId>ejercicios-fisica</artifactId>
+	<groupId>com.madoscientista</groupId>
+	<artifactId>generador_ejercicios</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>ejercicios-fisica</name>
+	<name>generador_ejercicios</name>
 	<description/>
 	<url/>
 	<licenses>
